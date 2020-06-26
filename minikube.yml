@@ -1,0 +1,61 @@
+---
+
+- hosts: minikube
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: ping.... is my Server responsible?
+      ping:
+
+    - name: update packages
+      dnf: name=sos enablerepo='epel, ol7_latest' update_cache=yes
+
+    - name: update system
+      command: sudo dnf update -y
+
+    - name: install python3
+      dnf:
+        name: python3
+        state: present
+
+    - name: add docker repo
+      command: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: install docker-ce
+      command: dnf install -y docker-ce --nobest
+
+    - name: start docker
+      service: name=docker state=started enabled=true
+
+    - name: add Kubernetes repository
+      yum_repository:
+        name: Kubernetes
+        description: Kubernetes YUM repository
+        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+        gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        gpgcheck: yes
+
+    - name: install kubectl
+      dnf:
+        name: kubectl
+        state: present
+
+    - name: install wget
+      dnf:
+        name: wget
+        state: present
+
+    - name: download minikube latest
+      command: wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+    - name: install minikube
+      command: install minikube-linux-amd64 /usr/local/bin/minikube
+
+    #- name: add user to docker group
+    #  become: yes
+    #  become_user: centos
+    #  shell: sudo usermod -aG docker centos && newgrp docker
+
+    #- name: start minikube
+    #  shell: minikube start --vm-driver=docker

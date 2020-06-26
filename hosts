@@ -1,0 +1,5 @@
+[control:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[minikube]
+host1 ansible_host=192.168.133.48 ansible_user=danya
