@@ -53,8 +53,6 @@
       command: install minikube-linux-amd64 /usr/local/bin/minikube
 
     #- name: add user to docker group
-    #  become: yes
-    #  become_user: centos
     #  shell: sudo usermod -aG docker centos && newgrp docker
 
     #- name: start minikube
