@@ -2,4 +2,4 @@
 ansible_python_interpreter=/usr/bin/python3
 
 [minikube]
-host1 ansible_host=192.168.133.48 ansible_user=danya
+host1 ansible_host=127.0.0.1 ansible_user=danya
